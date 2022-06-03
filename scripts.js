@@ -1,3 +1,9 @@
+const boardArray = [
+    ['0-0','0-1','0-2'],
+    ['1-0','1-1','1-2'],
+    ['2-0','2-1','2-2']];
+let row;
+let column;
 //       ***********************
 //            INSTRUCTIONS
 //       ***********************
@@ -18,10 +24,13 @@ const handleClick = (element) => {
 
   // this uses the "log" method on the "console" to log out the element's id so we can see it with our human eyes
   console.log(`The element you clicked on has an id:  ${element.id}`)
-
+  const row = parseInt(element.id.charAt(0))
+  const column = parseInt(element.id.charAt(2))
   // this next line prevents an X being changed to an O or an O being changed to an X by...
   //  checking to see if the square clicked has anything in it, if not continue
   if(!document.getElementById(element.id).innerHTML){
+
+    boardArray[row][column] = currentMarker
     addMarker(element.id)
   }
 }
@@ -51,7 +60,7 @@ const addMarker = (id) => {
   // document
   // .innerHTML 
 
-  changeMarker()
+  checkForWin()
 }
 
 
@@ -65,10 +74,10 @@ const addMarker = (id) => {
 
 // This "changeMarker" function changes "X" to "O" in the "currentMarker" variable or "O" to "X"
 const changeMarker = () => {
-  if(currentMarker === "X"){
+  if(currentMarker === 'X'){
     currentMarker = "O"
   } else {
-    currentMarker = "X"
+    currentMarker = 'X'
   }
 }
 
@@ -104,3 +113,63 @@ const resetBoard = () => {
     elements[i].innerHTML = null
   }  
 }
+const checkForWin = () => {
+  if (horizontalWin() || verticalWin() || diagonalWin()) {
+    window.alert(`Player ${currentMarker} won!`)
+    resetBoard();
+  } else {
+    changeMarker();
+  }
+};
+
+const horizontalWin = () => {
+  if (
+      (boardArray[0][0] == 'X' && boardArray[0][1] == 'X' && boardArray[0][2] == 'X') ||
+      (boardArray[0][0] == 'O' && boardArray[0][1] == 'O' && boardArray[0][2] == 'O')
+  ) {
+    return true;
+  } else if (
+      (boardArray[1][0] == 'X' && boardArray[1][1] == 'X' && boardArray[1][2] == 'X') ||
+      (boardArray[1][0] == 'O' && boardArray[1][1] == 'O' && boardArray[1][2] == 'O')
+  ) {
+    return true;
+  } else if (
+      (boardArray[2][0] == 'X' && boardArray[2][1] == 'X' && boardArray[2][2] == 'X') ||
+      (boardArray[2][0] == 'O' && boardArray[2][1] == 'O' && boardArray[2][2] == 'O')
+  ) {
+    return true;
+  }
+};
+
+const verticalWin = () => {
+  if (
+      (boardArray[0][0] == 'X' && boardArray[1][0] == 'X' && boardArray[2][0] == 'X') ||
+      (boardArray[0][0] == 'O' && boardArray[1][0] == 'O' && boardArray[2][0] == 'O')
+  ) {
+    return true;
+  } else if (
+      (boardArray[0][1] == 'X' && boardArray[1][1] == 'X' && boardArray[2][1] == 'X') ||
+      (boardArray[0][1] == 'O' && boardArray[1][1] == 'O' && boardArray[2][1] == 'O')
+  ) {
+    return true;
+  } else if (
+      (boardArray[0][2] == 'X' && boardArray[1][2] == 'X' && boardArray[2][2] == 'X') ||
+      (boardArray[0][2] == 'O' && boardArray[1][2] == 'O' && boardArray[2][2] == 'O')
+  ) {
+    return true;
+  }
+};
+
+const diagonalWin = () => {
+  if (
+      (boardArray[0][0] == 'X' && boardArray[1][1] == 'X' && boardArray[2][2] == 'X') ||
+      (boardArray[0][0] == 'O' && boardArray[1][1] == 'O' && boardArray[2][2] == 'O')
+  ) {
+    return true;
+  } else if (
+      (boardArray[0][2] == 'X' && boardArray[1][1] == 'X' && boardArray[2][0] == 'X') ||
+      (boardArray[0][2] == 'O' && boardArray[1][1] == 'O' && boardArray[2][0] == 'O')
+  ) {
+    return true;
+  }
+};
