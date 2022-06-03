@@ -1,3 +1,7 @@
+const boardArray = [
+    ['0-0','0-1','0-2'],
+    ['1-0','1-1','1-2'],
+    ['2-0','2-1','2-2']]
 //       ***********************
 //            INSTRUCTIONS
 //       ***********************
@@ -22,7 +26,10 @@ const handleClick = (element) => {
   // this next line prevents an X being changed to an O or an O being changed to an X by...
   //  checking to see if the square clicked has anything in it, if not continue
   if(!document.getElementById(element.id).innerHTML){
+    const row = parseInt(element.id.charAt(0))
+    const column = parseInt(element.id.charAt(2))
     addMarker(element.id)
+    boardArray[row][column] = currentMarker
   }
 }
 
@@ -51,7 +58,7 @@ const addMarker = (id) => {
   // document
   // .innerHTML 
 
-  changeMarker()
+  checkForWin()
 }
 
 
@@ -103,4 +110,26 @@ const resetBoard = () => {
     // sets the innerHTML to null to replace the "X" or "O"
     elements[i].innerHTML = null
   }  
+}
+const checkForWin = () => {
+  if(horizontalWin() || verticalWin() || diagonalWin()) {
+    window.alert(`Player ${currentMarker} won!`)
+  } else {
+    changeMarker()
+  }
+}
+const horizontalWin = () => {
+  if((boardArray[0][0] == "X" && boardArray[0][1] == "X" && boardArray[0][2] == "X")
+      || (boardArray[0][0] == "O" && boardArray[0][1] == "O" && boardArray[0][2] == "O")
+  )
+}
+const verticalWin = () => {
+  if((boardArray[0][0] == "X" && boardArray[1][0] == "X" && boardArray[2][0] == "X")
+      || (boardArray[0][0] == "O" && boardArray[1][0] == "O" && boardArray[2][0] == "O")
+  )
+}
+const diagonalWin = () => {
+  if((boardArray[0][0] == "X" && boardArray[1][1] == "X" && boardArray[2][2] == "X")
+      || (boardArray[0][0] == "O" && boardArray[1][1] == "O" && boardArray[2][2] == "O")
+  )
 }
